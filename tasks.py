@@ -10,7 +10,7 @@ from invoke import task
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, 'cookiecutter.json'), 'r') as fp:
     COOKIECUTTER_SETTINGS = json.load(fp)
-COOKIE = os.path.join(HERE, COOKIECUTTER_SETTINGS['app_name'])
+COOKIE = os.path.join(HERE, COOKIECUTTER_SETTINGS['project_slug'])
 REQUIREMENTS = os.path.join(COOKIE, 'requirements', 'dev.txt')
 
 

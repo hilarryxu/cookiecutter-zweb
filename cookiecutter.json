@@ -4,7 +4,7 @@
     "github_username": "hilarryxu",
     "project_name": "My zweb app",
     "project_slug": "myzwebapp",
-    "pkg_name": {{ cookiecutter.project_slug|replace('-', '') }}",
+    "pkg_name": "{{ cookiecutter.project_slug|replace('-', '') }}",
     "project_short_description": "A zweb app.",
     "use_pipenv": ["no", "yes"]
 }
