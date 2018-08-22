@@ -1,0 +1,7 @@
+-r base.txt
+
+# Lint and code style
+flake8
+
+# Dev tools
+bumpversion

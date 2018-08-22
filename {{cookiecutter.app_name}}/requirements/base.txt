@@ -1,0 +1,15 @@
+# Tornado
+tornado~=4.5.2
+
+# zweb
+git+https://github.com/hilarryxu/zweb.git#egg=zweb
+
+# Database
+MySQL-python==1.2.5
+redis~=2.10.6
+
+# Template
+Mako~=1.0.7
+
+# Schema
+marshmallow~=3.0.0b13
