@@ -1,7 +1,5 @@
 -r base.txt
 
-# Lint and code style
-flake8
 
-# Dev tools
-bumpversion
+flake8{% if cookiecutter.use_bumpversion == 'y' -%}
+bumpversion{%- endif %}

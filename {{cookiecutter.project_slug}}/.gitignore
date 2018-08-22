@@ -1,0 +1,11 @@
+*.pyc
+tags
+
+.venv/
+.site-packages/
+tmp/
+logs/
+{{ cookiecutter.pkg_name }}/static/upload/
+
+{{ cookiecutter.pkg_name }}/local_config.py
+dev_bootstrap.py
