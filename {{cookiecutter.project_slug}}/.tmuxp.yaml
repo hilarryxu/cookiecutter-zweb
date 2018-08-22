@@ -1,0 +1,32 @@
+session_name: {{cookiecutter.project_slug}}
+start_directory: ./
+windows:
+- window_name: run
+  layout: main-horizontal
+  options:
+    main-pane-height: 35
+  shell_command_before:
+    - '[ -d .venv ] && source .venv/bin/activate && clear'
+  panes:
+    - python server.py
+    - pane
+    - pane
+- window_name: vim
+  focus: True
+  layout: main-vertical
+  options:
+    main-pane-height: 35
+  start_directory: ./
+  shell_command_before:
+    - '[ -d .venv ] && source .venv/bin/activate && clear'
+  panes:
+    - vim
+    - rg --files --type py | entr -c flake8 .
+    - rg --files | entr -c git status -u
+    - pane
+- window_name: fish
+  layout: main-vertical
+  options:
+    main-pane-height: 35
+  panes:
+    - fish
