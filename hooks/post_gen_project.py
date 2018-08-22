@@ -16,5 +16,5 @@ def remove_it(filepath):
 
 
 if __name__ == '__main__':
-    if '{{cookiecutter.use_bumpversion}}'.lower() in ('n', 'no'):
+    if '{{ cookiecutter.use_bumpversion }}'.lower() in ('n', 'no'):
         remove_it('.bumpversion.cfg')
