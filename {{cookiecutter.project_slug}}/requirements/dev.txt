@@ -1,5 +1,6 @@
 -r base.txt
 
-
-flake8{% if cookiecutter.use_bumpversion == 'y' -%}
-bumpversion{%- endif %}
+flake8
+{% if cookiecutter.use_bumpversion == 'y' -%}
+bumpversion
+{%- endif %}
