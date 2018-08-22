@@ -1,0 +1,9 @@
+{
+    "full_name": "Larry Xu",
+    "email": "hilarryxu@gmail.com",
+    "github_username": "hilarryxu",
+    "project_name": "My zweb app",
+    "app_name": "myzwebapp",
+    "project_short_description": "A zweb app.",
+    "use_pipenv": ["no", "yes"]
+}
