@@ -15,6 +15,21 @@ def remove_it(filepath):
         shutil.rmtree(file_or_dir)
 
 
+def main():
+    use_pipenv = '{{ cookiecutter.use_pipenv }}'
+    to_delete = []
+
+    if use_pipenv == 'yes':
+        to_delete = to_delete + ['requirements.txt', 'requirements']
+    else:
+        to_delete.append('Pipfile')
+
+    if '{{ cookiecutter.use_bumpversion }}' == 'no':
+        to_delete.append('.bumpversion.cfg')
+
+    for file_or_dir in to_delete:
+        remove_it(file_or_dir)
+
+
 if __name__ == '__main__':
-    if '{{ cookiecutter.use_bumpversion }}'.lower() in ('n', 'no'):
-        remove_it('.bumpversion.cfg')
+    main()

@@ -1,4 +1,4 @@
-session_name: {{cookiecutter.project_slug}}
+session_name: {{ cookiecutter.project_slug }}
 start_directory: ./
 windows:
 - window_name: run
@@ -8,7 +8,7 @@ windows:
   shell_command_before:
     - '[ -d .venv ] && source .venv/bin/activate && clear'
   panes:
-    - python server.py
+    - pane
     - pane
     - pane
 - window_name: vim

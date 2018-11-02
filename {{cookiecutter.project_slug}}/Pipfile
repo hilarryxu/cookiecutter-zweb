@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+# zweb
+tornado = "==4.5.3"
+Mako = "==1.0.7"
+
+# Database
+MySQL-python = "==1.2.5"
+redis = "==2.10.6"
+
+[dev-packages]
+# Testing
+
+# Lint and code style
+flake8 = "==3.6.0"

@@ -1,4 +1,4 @@
-*.pyc
+*.py[cod]
 tags
 
 .venv/
@@ -8,4 +8,3 @@ logs/
 {{ cookiecutter.pkg_name }}/static/upload/
 
 {{ cookiecutter.pkg_name }}/local_config.py
-dev_bootstrap.py
