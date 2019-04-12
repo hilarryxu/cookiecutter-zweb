@@ -9,6 +9,7 @@ import json
 from tornado import web
 from tornado import escape
 from tornado.escape import json_decode
+from mako.exceptions import MakoException, html_error_template
 
 from .. import config as g
 from .. import consts
@@ -64,6 +65,11 @@ class BaseView(web.RequestHandler):
         limit = self.get_argument('limit', default=g.DEFAULT_LIMIT, type=int)
         return page, limit
 
+    @property
+    def current_uid(self):
+        if self.current_user:
+            return self.current_user.id
+
 
 class View(BaseView):
     def render(self, template_name=None, **kwds):
@@ -79,6 +85,10 @@ class View(BaseView):
             kwds['_'] = self.locale.translate
             kwds['escape'] = escape
             kwds.update(tpl_context)
+
+            if template_name and template_name.startswith('@'):
+                template_name = '/%s/%s' % (g.PKG_NAME, template_name[1:])
+
             self.finish(g.st(template_name, **kwds))
 
     def get_current_user(self):
@@ -86,11 +96,6 @@ class View(BaseView):
         if uid:
             p_user = User.objects.get(uid)
             return p_user
-
-    @property
-    def current_user_id(self):
-        if self.current_user:
-            return self.current_user.id
 
     def get_context(self):
         context = dict(
@@ -109,6 +114,7 @@ class View(BaseView):
         context = self.get_context()
 
         error = None
+        err_code = 1
         err_msg = 'ERROR %d' % int(status_code)
         if 'exc_info' in kwargs:
             exc_info = kwargs['exc_info']
@@ -117,10 +123,13 @@ class View(BaseView):
             if isinstance(error, web.HTTPError):
                 if error.log_message:
                     err_msg = error.log_message
+            elif isinstance(error, Error):
+                err_code = error.code
+                err_msg = error.message
 
         if self.is_ajax():
             self.finish({
-                'code': 1,
+                'code': err_code,
                 'msg': err_msg
             })
             return
@@ -129,6 +138,9 @@ class View(BaseView):
             context['message'] = err_msg
             self.render('/{}/error/404.mako'.format(g.PKG_NAME), **context)
         elif status_code == 500:
+            if g.DEBUG and isinstance(error, MakoException):
+                self.finish(html_error_template().render())
+                return
             error_trace = ""
             if 'exc_info' in kwargs:
                 for line in traceback.format_exception(*kwargs['exc_info']):
@@ -169,11 +181,6 @@ class ApiView(BaseView):
             p_user = User.objects.get(uid)
             return p_user
 
-    @property
-    def current_user_id(self):
-        if self.current_user:
-            return self.current_user.id
-
     def set_default_headers(self):
         self.set_header('Server', 'TORNADO')
 
@@ -186,9 +193,17 @@ class ApiView(BaseView):
             'method': self.request.method,
             'path': self.request.path,
             'arguments': self.request.arguments,
-            'json_args': self.json_args,
-            'current_user_id': self.current_user_id,
+            'current_uid': self.current_uid,
         }
+
+        if g.DEBUG:
+            if self.request.headers.get('Content-Type', '').startswith('application/json'):
+                try:
+                    json_args = json_decode(self.request.body)
+                except Exception:
+                    json_args = {}
+                ctx['json_args'] = json_args
+
         log_method = logger.info
         log_method(json.dumps(ctx))
 

@@ -4,12 +4,13 @@ import os
 
 from mako.lookup import TemplateLookup
 
+MODE = 'dev'
 DEBUG = True
 ADDRESS = ''
 PORT = 3000
 XHEADERS = False
 
-PKG_NAME = '{{cookiecutter.pkg_name}}'
+PKG_NAME = '{{ cookiecutter.pkg_name }}'
 BUILD_VERSION = 'v0'
 DEFAULT_LIMIT = 10
 API_COOKIE_KEY = '{}_user'.format(PKG_NAME)

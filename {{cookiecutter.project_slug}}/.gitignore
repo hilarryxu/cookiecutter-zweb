@@ -1,5 +1,6 @@
 *.py[cod]
 tags
+*.sublime-workspace
 
 .venv/
 .site-packages/

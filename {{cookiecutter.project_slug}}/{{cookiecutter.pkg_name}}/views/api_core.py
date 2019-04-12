@@ -10,15 +10,6 @@ from ..consts import (
 )
 
 
-def d_as_dict(d):
-    if d:
-        if d['props']:
-            d.update(json_decode(d.pop('props')))
-        return d
-    else:
-        return {}
-
-
 @api_route('/config')
 class ConfigView(ApiView):
     def get(self):

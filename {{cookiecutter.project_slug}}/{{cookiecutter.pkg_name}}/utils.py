@@ -8,6 +8,8 @@ import datetime
 import math
 import hashlib
 
+from tornado.escape import json_decode
+
 
 def safeunicode(obj, encoding='utf-8'):
     t = type(obj)
@@ -114,6 +116,20 @@ def as_int(v, default=0):
     if not v:
         return default
     return int(v)
+
+
+def m2dict(d):
+    if d:
+        if hasattr(d, 'to_dict'):
+            d = d.to_dict()
+        ctx = storage()
+        props_val = d.pop('props', None)
+        if props_val:
+            ctx.update(json_decode(props_val))
+        ctx.update(d)
+        return ctx
+    else:
+        return {}
 
 
 tpl_context = dict(
