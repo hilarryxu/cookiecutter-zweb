@@ -16,13 +16,7 @@ def remove_it(filepath):
 
 
 def main():
-    use_pipenv = '{{ cookiecutter.use_pipenv }}'
     to_delete = []
-
-    if use_pipenv == 'yes':
-        to_delete = to_delete + ['requirements.txt', 'requirements']
-    else:
-        to_delete.append('Pipfile')
 
     if '{{ cookiecutter.use_bumpversion }}' == 'no':
         to_delete.append('.bumpversion.cfg')

@@ -7,6 +7,5 @@
     "pkg_name": "{{ cookiecutter.project_slug|replace('-', '') }}",
     "project_short_description": "A zweb app.",
     "version": "0.1.0",
-    "use_bumpversion": ["yes", "no"],
-    "use_pipenv": ["no", "yes"]
+    "use_bumpversion": ["yes", "no"]
 }
