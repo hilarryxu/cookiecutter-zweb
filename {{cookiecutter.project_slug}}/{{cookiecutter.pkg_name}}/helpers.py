@@ -4,7 +4,6 @@ import hashlib
 import hmac
 
 from tornado.web import HTTPError
-from tornado.escape import json_encode, json_decode
 
 from .config import PASSWORD_SECRET
 from .utils import safestr
@@ -21,16 +20,6 @@ def make_password(s):
     s = safestr(s)
     val = hmac.new(PASSWORD_SECRET, s, hashlib.sha1).hexdigest()
     return safestr(val)
-
-
-def update_props(obj, new_props):
-    props = obj.props
-    if not props:
-        props = {}
-    else:
-        props = json_decode(props)
-    props.update(new_props)
-    obj.props = json_encode(props)
 
 
 def mysql_iter(model_cls, arg_id=0, limit=500, fields='*',
