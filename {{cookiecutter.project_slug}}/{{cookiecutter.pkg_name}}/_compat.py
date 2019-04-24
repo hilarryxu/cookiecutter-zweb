@@ -4,19 +4,35 @@
 
 import sys
 
-PY2 = int(sys.version[0]) == 2
+from tornado.util import (  # noqa
+    _UTF8_TYPES, _TO_UNICODE_TYPES, _BASESTRING_TYPES,
+    utf8, to_unicode, native_str, to_basestring,
+    recursive_unicode
+)
 
-if PY2:
-    text_type = unicode  # noqa
-    binary_type = str
-    string_types = (str, unicode)  # noqa
-    integer_types = (int, long)
-    unicode = unicode  # noqa
-    basestring = basestring  # noqa
-else:
+PY3 = sys.version_info >= (3,)
+
+if PY3:
+    xrange = range
+
+if PY3:
     text_type = str
     binary_type = bytes
     string_types = (str,)
     integer_types = (int,)
     unicode = str
     basestring = (str, bytes)
+else:
+    text_type = unicode  # noqa
+    binary_type = str
+    string_types = (str, unicode)  # noqa
+    integer_types = (int, long)
+    unicode = unicode  # noqa
+    basestring = basestring  # noqa
+
+if PY3:
+    unicode_type = str
+    basestring_type = str
+else:
+    unicode_type = unicode  # noqa
+    basestring_type = basestring  # noqa
