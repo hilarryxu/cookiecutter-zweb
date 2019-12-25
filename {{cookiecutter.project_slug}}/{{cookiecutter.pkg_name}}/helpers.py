@@ -4,9 +4,9 @@ import hashlib
 import hmac
 
 from tornado.web import HTTPError
+from tornado.escape import utf8
 
 from .config import PASSWORD_SECRET
-from .utils import safestr
 
 
 def get_object_or_404(model_cls, **kwargs):
@@ -17,9 +17,7 @@ def get_object_or_404(model_cls, **kwargs):
 
 
 def make_password(s):
-    s = safestr(s)
-    val = hmac.new(PASSWORD_SECRET, s, hashlib.sha1).hexdigest()
-    return safestr(val)
+    return hmac.new(PASSWORD_SECRET, utf8(s), hashlib.sha1).hexdigest()
 
 
 def mysql_iter(model_cls, arg_id=0, limit=500, fields='*',

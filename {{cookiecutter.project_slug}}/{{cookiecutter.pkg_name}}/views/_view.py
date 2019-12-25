@@ -13,7 +13,7 @@ from mako.exceptions import MakoException, html_error_template
 
 from .. import config as g
 from .. import consts
-from ..utils import safestr, tpl_context
+from ..utils import tpl_context
 from .. import helpers
 from ..errors import (
     Error, ERROR_CODE_SYSTEM,
@@ -23,7 +23,7 @@ from ..models import User
 
 
 class BaseView(web.RequestHandler):
-    def get_argument(self, name, default=web.RequestHandler._ARG_DEFAULT, strip=True, type=None):
+    def get_argument(self, name, default=web._ARG_DEFAULT, strip=True, type=None):
         arg = super(BaseView, self).get_argument(name, default, strip)
         if type is not None:
             try:
@@ -103,7 +103,7 @@ class View(BaseView):
             active_domain=getattr(self, 'active_domain', ''),
             active_tab=getattr(self, 'active_tab', ''),
             js_page=getattr(self, 'js_page', ''),
-            js_version=safestr(int(time.time())) if g.DEBUG else g.BUILD_VERSION
+            js_version=str(int(time.time())) if g.DEBUG else g.BUILD_VERSION
         )
         return context
 

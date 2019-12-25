@@ -9,31 +9,7 @@ import math
 import hashlib
 
 from tornado.escape import json_encode, json_decode
-
-
-def safeunicode(obj, encoding='utf-8'):
-    t = type(obj)
-    if t is unicode:
-        return obj
-    elif t is str:
-        return obj.decode(encoding)
-    elif t in [int, float, bool]:
-        return unicode(obj)
-    elif hasattr(obj, '__unicode__') or isinstance(obj, unicode):
-        return unicode(obj)
-    else:
-        return str(obj).decode(encoding)
-
-
-def safestr(obj, encoding='utf-8'):
-    if isinstance(obj, unicode):
-        return obj.encode(encoding)
-    elif isinstance(obj, str):
-        return obj
-    elif hasattr(obj, 'next'):  # iterator
-        return itertools.imap(safestr, obj)
-    else:
-        return str(obj)
+from zweb.orm.util import safestr, safeunicode  # noqa
 
 
 class Storage(dict):
