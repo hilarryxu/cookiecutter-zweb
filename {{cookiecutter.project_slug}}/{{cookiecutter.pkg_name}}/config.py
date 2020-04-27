@@ -17,9 +17,8 @@ API_COOKIE_KEY = '{}_user'.format(PKG_NAME)
 AUTH_COOKIE_KEY = '{}_user'.format(PKG_NAME)
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
-RENDER_PATH = [
-    os.path.join(ROOT, 'templates')
-]
+TOP = os.path.abspath(os.path.dirname(ROOT))
+RENDER_PATH = [os.path.join(ROOT, 'templates')]
 
 UPLOAD_PATH_PREFIX = os.path.join(ROOT, 'static/upload')
 UPLOAD_URL_PREFIX = '/static/upload'
@@ -38,7 +37,7 @@ template_lookup = TemplateLookup(
     imports=['from %s.utils import safeunicode' % PKG_NAME],
     default_filters=['safeunicode', 'h'],
     filesystem_checks=DEBUG,
-    input_encoding='utf-8'
+    input_encoding='utf-8',
 )
 
 

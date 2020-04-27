@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
-DEBUG = True
+MODE = 'prod'
+DEBUG = False
+ADDRESS = '127.0.0.1'
+XHEADERS = True
+
 COOKIE_SECRET = '@COOKIE_SECRET@'
 COOKIE_HOURS = 24 * 7
 PASSWORD_SECRET = b'@PASSWORD_SECRET@'

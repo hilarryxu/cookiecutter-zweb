@@ -5,9 +5,14 @@
 import sys
 
 from tornado.util import (  # noqa
-    _UTF8_TYPES, _TO_UNICODE_TYPES, _BASESTRING_TYPES,
-    utf8, to_unicode, native_str, to_basestring,
-    recursive_unicode
+    _BASESTRING_TYPES,
+    _TO_UNICODE_TYPES,
+    _UTF8_TYPES,
+    native_str,
+    recursive_unicode,
+    to_basestring,
+    to_unicode,
+    utf8,
 )
 
 PY3 = sys.version_info >= (3,)
@@ -26,7 +31,7 @@ else:
     text_type = unicode  # noqa
     binary_type = str
     string_types = (str, unicode)  # noqa
-    integer_types = (int, long)
+    integer_types = (int, long)  # noqa
     unicode = unicode  # noqa
     basestring = basestring  # noqa
 

@@ -2,9 +2,7 @@
 
 import functools
 
-from .errors import (
-    Error, ERROR_CODE_NOT_LOGINED
-)
+from .errors import ERROR_CODE_NOT_LOGINED, Error
 
 
 def login_required(method):
@@ -13,4 +11,5 @@ def login_required(method):
         if not self.current_user:
             raise Error(ERROR_CODE_NOT_LOGINED)
         return method(self, *args, **kwargs)
+
     return wrapper

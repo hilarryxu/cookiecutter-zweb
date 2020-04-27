@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from distutils.util import strtobool
-import traceback
-import time
 import json
+import logging
+import time
+import traceback
+from distutils.util import strtobool
 
-from tornado import web
-from tornado import escape
-from tornado.escape import json_decode
 from mako.exceptions import MakoException, html_error_template
+from tornado import escape, web
+from tornado.escape import json_decode
 
-from .. import config as g
-from .. import consts
-from ..utils import tpl_context
-from .. import helpers
-from ..errors import (
-    Error, ERROR_CODE_SYSTEM,
-    ERROR_CODE_PARAM_WRONG
-)
+from .. import config as g, consts, helpers
+from ..errors import ERROR_CODE_PARAM_WRONG, ERROR_CODE_SYSTEM, Error
 from ..models import User
+from ..utils import tpl_context
 
 
 class BaseView(web.RequestHandler):
@@ -35,29 +29,23 @@ class BaseView(web.RequestHandler):
                 if arg is None and default is None:
                     return arg
                 raise web.MissingArgumentError(
-                    "Invalid argument '%s' of type '%s' for %s" % (arg, type.__name__, name))
+                    "Invalid argument '%s' of type '%s' for %s"
+                    % (arg, type.__name__, name)
+                )
         return arg
 
     def api_error(self, arg1=None, **kwargs):
-        out = {
-            'code': 1
-        }
+        out = {'code': 1}
         out.update(kwargs)
-        out.update({
-            'msg': arg1 or ''
-        })
+        out.update({'msg': arg1 or ''})
         logger = logging.getLogger('request')
         logger.warn(json.dumps(out))
         self.finish(out)
 
     def api_ok(self, arg1=None, **kwargs):
-        out = {
-            'code': 0
-        }
+        out = {'code': 0}
         out.update(kwargs)
-        out.update({
-            'msg': arg1 or ''
-        })
+        out.update({'msg': arg1 or ''})
         self.finish(out)
 
     def page_limit(self):
@@ -99,11 +87,13 @@ class View(BaseView):
 
     def get_context(self):
         context = dict(
-            base_template=getattr(self, 'base_template', '/{}/base.mako'.format(g.PKG_NAME)),
+            base_template=getattr(
+                self, 'base_template', '/{}/base.mako'.format(g.PKG_NAME)
+            ),
             active_domain=getattr(self, 'active_domain', ''),
             active_tab=getattr(self, 'active_tab', ''),
             js_page=getattr(self, 'js_page', ''),
-            js_version=str(int(time.time())) if g.DEBUG else g.BUILD_VERSION
+            js_version=str(int(time.time())) if g.DEBUG else g.BUILD_VERSION,
         )
         return context
 
@@ -128,10 +118,7 @@ class View(BaseView):
                 err_msg = error.message
 
         if self.is_ajax():
-            self.finish({
-                'code': err_code,
-                'msg': err_msg
-            })
+            self.finish({'code': err_code, 'msg': err_msg})
             return
 
         if status_code in (404, 403):
@@ -146,11 +133,9 @@ class View(BaseView):
                 for line in traceback.format_exception(*kwargs['exc_info']):
                     error_trace += line
 
-            context.update(dict(
-                debug=g.DEBUG,
-                status_code=status_code,
-                error_trace=error_trace
-            ))
+            context.update(
+                dict(debug=g.DEBUG, status_code=status_code, error_trace=error_trace)
+            )
             self.render('/{}/error/500.mako'.format(g.PKG_NAME), **context)
         else:
             self.set_header('Content-Type', 'text/plain')
@@ -197,7 +182,9 @@ class ApiView(BaseView):
         }
 
         if g.DEBUG:
-            if self.request.headers.get('Content-Type', '').startswith('application/json'):
+            if self.request.headers.get('Content-Type', '').startswith(
+                'application/json'
+            ):
                 try:
                     json_args = json_decode(self.request.body)
                 except Exception:
@@ -222,7 +209,9 @@ class ApiView(BaseView):
             if isinstance(error, Error):
                 pass
             elif isinstance(error, web.MissingArgumentError):
-                error = Error(ERROR_CODE_PARAM_WRONG, error.log_message if g.DEBUG else None)
+                error = Error(
+                    ERROR_CODE_PARAM_WRONG, error.log_message if g.DEBUG else None
+                )
             else:
                 error = Error(ERROR_CODE_SYSTEM, exception if g.DEBUG else None)
 
@@ -230,10 +219,7 @@ class ApiView(BaseView):
             logger.warn('Error(%s)', error)
 
             self.set_status(200)
-            self.finish({
-                'code': error.code,
-                'msg': error.message
-            })
+            self.finish({'code': error.code, 'msg': error.message})
         except Exception:
             logging.error(traceback.format_exc())
             return super(ApiView, self).write_error(status_code, **kwargs)

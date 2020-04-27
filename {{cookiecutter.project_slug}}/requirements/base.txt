@@ -1,7 +1,7 @@
 # zweb
 git+https://github.com/hilarryxu/zweb.git@v1.0.1
-tornado~=6.0.2
-Mako~=1.0.7
+tornado~=6.0.4
+Mako~=1.0.14
 
 # Database
 mysqlclient==1.4.2.post1

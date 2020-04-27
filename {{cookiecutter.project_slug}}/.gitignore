@@ -1,13 +1,15 @@
 *.py[cod]
 tags
 *.sublime-workspace
-{{ cookiecutter.pkg_name }}/local_config.py
 
 __pycache__/
 .venv/
 .site-packages/
 .mypy_cache/
 .pytest_cache/
+.vscode/
 tmp/
 logs/
+
 {{ cookiecutter.pkg_name }}/static/upload/
+{{ cookiecutter.pkg_name }}/local_config.py

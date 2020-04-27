@@ -3,8 +3,8 @@
 import hashlib
 import hmac
 
-from tornado.web import HTTPError
 from tornado.escape import utf8
+from tornado.web import HTTPError
 
 from .config import PASSWORD_SECRET
 
@@ -20,8 +20,9 @@ def make_password(s):
     return hmac.new(PASSWORD_SECRET, utf8(s), hashlib.sha1).hexdigest()
 
 
-def mysql_iter(model_cls, arg_id=0, limit=500, fields='*',
-               filter_args=None, filter_kwargs=None):
+def mysql_iter(
+    model_cls, arg_id=0, limit=500, fields='*', filter_args=None, filter_kwargs=None
+):
     while True:
         if filter_args:
             qs = model_cls.objects.filter(*filter_args)

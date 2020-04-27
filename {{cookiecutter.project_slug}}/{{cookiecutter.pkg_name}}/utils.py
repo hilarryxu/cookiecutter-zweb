@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import itertools
-import uuid
 import base64
-import time
 import datetime
-import math
 import hashlib
+import math
+import time
+import uuid
 
-from tornado.escape import json_encode, json_decode
+from tornado.escape import json_decode, json_encode
 from zweb.orm.util import safestr, safeunicode  # noqa
 
 
@@ -109,6 +108,8 @@ def m2dict(d):
 
 
 def update_props(obj, new_props):
+    if obj.is_new():
+        setattr(obj, 'props', '')
     props = obj.props
     if not props:
         props = {}
@@ -118,8 +119,4 @@ def update_props(obj, new_props):
     obj.props = json_encode(props)
 
 
-tpl_context = dict(
-    strftm=strftm,
-    iif=iif,
-    get_choice_label=get_choice_label
-)
+tpl_context = dict(strftm=strftm, iif=iif, get_choice_label=get_choice_label)

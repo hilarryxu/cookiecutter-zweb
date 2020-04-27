@@ -2,8 +2,8 @@
 
 import os.path
 
-import tornado.web
 import tornado.locale
+import tornado.web
 
 from .config import PKG_NAME
 from .urls import handlers

@@ -2,12 +2,10 @@
 
 from tornado.escape import json_decode
 
+from ..consts import KEY_CONFIG
+from ..db import _rdb
 from ._route import api_route
 from ._view import ApiView
-from ..db import _rdb
-from ..consts import (
-    KEY_CONFIG
-)
 
 
 @api_route('/config')

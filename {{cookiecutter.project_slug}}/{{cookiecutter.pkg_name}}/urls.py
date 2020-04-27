@@ -2,10 +2,10 @@
 
 import os
 
-from .config import DEBUG, COOKIE_SECRET
+from .config import COOKIE_SECRET, DEBUG
 from .views import _url  # noqa
-from .views._route import route, api_route
-from .views._view import NotFound, ApiNotFound
+from .views._route import api_route, route
+from .views._view import ApiNotFound, NotFound
 
 settings = dict(
     debug=DEBUG,
@@ -15,8 +15,9 @@ settings = dict(
     login_url='/login',
 )
 
-handlers = [
-] + route.handlers + api_route.handlers + [
-    (r'/api/.*', ApiNotFound),
-    (r'.*', NotFound)
-]
+handlers = (
+    []
+    + route.handlers
+    + api_route.handlers
+    + [(r'/api/.*', ApiNotFound), (r'.*', NotFound)]
+)

@@ -15,8 +15,9 @@ fi
 
 if [ ! -d ".venv" ]; then
   log INFO "setup .venv begin ..."
-  virtualenv .venv
+  python3 -m venv .venv
   source .venv/bin/activate
+  pip install wheel
   pip install -r ./requirements/$MODE.txt
   log INFO "setup .venv end"
 fi
