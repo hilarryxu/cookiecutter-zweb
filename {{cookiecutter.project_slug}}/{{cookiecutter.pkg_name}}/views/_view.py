@@ -231,3 +231,31 @@ class ApiNotFound(ApiView):
 
     def post(self):
         self.api_error('ERROR 404')
+
+
+class RPCView(ApiView):
+    def get_argument(self, name, default=web._ARG_DEFAULT, strip=True, type=None):
+        if self.request.headers.get('Content-Type', '').startswith('application/json'):
+            arg = self.json_args.get(name, default)
+            if arg is web._ARG_DEFAULT:
+                raise web.MissingArgumentError(name)
+            if type is not None:
+                try:
+                    if type is bool:
+                        arg = strtobool(str(arg))
+                    else:
+                        arg = type(arg)
+                except (ValueError, TypeError):
+                    if arg is None and default is None:
+                        return arg
+                    raise web.MissingArgumentError(
+                        "Invalid argument '%s' of type '%s' for %s"
+                        % (arg, type.__name__, name)
+                    )
+            return arg
+        return super().get_argument(name, default, strip, type)
+
+    def get_current_user(self):
+        auth_header = self.request.headers.get('Authorization', '')
+        if auth_header and ' ' in auth_header:
+            auth_meth, token = auth_header.split(' ', 1)
