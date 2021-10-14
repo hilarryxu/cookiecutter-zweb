@@ -8,11 +8,11 @@ from pprint import pformat
 ROOT = os.path.abspath(os.path.dirname(__file__))  # noqa
 
 from {{cookiecutter.pkg_name}} import config as C  # noqa
-from {{cookiecutter.pkg_name}}.db import setup_model
+from {{cookiecutter.pkg_name}}.db import setup_model  # noqa
 setup_model(C.DEBUG)  # noqa
-from {{cookiecutter.pkg_name}}.config import DEBUG, ADDRESS, PORT, XHEADERS
-from {{cookiecutter.pkg_name}}.app import make_app
-from {{cookiecutter.pkg_name}}.urls import settings
+from {{cookiecutter.pkg_name}}.config import DEBUG, ADDRESS, PORT, XHEADERS  # noqa
+from {{cookiecutter.pkg_name}}.app import make_app  # noqa
+from {{cookiecutter.pkg_name}}.urls import settings  # noqa
 
 
 def main():

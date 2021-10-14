@@ -9,5 +9,5 @@ set -x
 
 ${PREFIX}autoflake --in-place --recursive {{cookiecutter.pkg_name}}
 ${PREFIX}black {{cookiecutter.pkg_name}}
-${PREFIX}isort --multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width 88 --recursive --apply {{cookiecutter.pkg_name}}
+${PREFIX}isort --multi-line=3 --trailing-comma --force-grid-wrap=0 --combine-as --line-width 88 {{cookiecutter.pkg_name}}
 # ${PREFIX}mypy {{cookiecutter.pkg_name}} --ignore-missing-imports --disallow-untyped-defs

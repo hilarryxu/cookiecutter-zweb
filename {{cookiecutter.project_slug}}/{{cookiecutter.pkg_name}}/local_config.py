@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-MODE = 'prod'
-DEBUG = False
-ADDRESS = '127.0.0.1'
+MODE = 'dev'
+DEBUG = True
+# ADDRESS = '127.0.0.1'
 XHEADERS = True
+# PORT = 3000
 
 COOKIE_SECRET = '@COOKIE_SECRET@'
 COOKIE_HOURS = 24 * 7
