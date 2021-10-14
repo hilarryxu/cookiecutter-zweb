@@ -8,7 +8,7 @@ from distutils.util import strtobool
 
 from mako.exceptions import MakoException, html_error_template
 from tornado import escape, web
-from tornado.escape import json_decode
+from tornado.escape import json_decode, recursive_unicode
 
 from .. import config as g, consts, helpers
 from ..errors import ERROR_CODE_PARAM_WRONG, ERROR_CODE_SYSTEM, Error
@@ -177,7 +177,10 @@ class ApiView(BaseView):
             'remote_ip': self.request.remote_ip,
             'method': self.request.method,
             'path': self.request.path,
-            'arguments': self.request.arguments,
+            'arguments': {
+                k: v[0] if len(v) == 1 else v
+                for k, v in recursive_unicode(self.request.arguments).items()
+            },
             'current_uid': self.current_uid,
         }
 
